@@ -1,8 +1,11 @@
+from urllib.parse import quote
+
+
 def test_unregister_registered_student_success(client):
     # Arrange
     activity_name = "Chess Club"
     existing_email = "michael@mergington.edu"
-    endpoint = f"/activities/{activity_name}/unregister"
+    endpoint = f"/activities/{quote(activity_name)}/unregister"
 
     # Act
     response = client.post(endpoint, params={"email": existing_email})
@@ -17,7 +20,7 @@ def test_unregister_removes_student_from_participants(client):
     # Arrange
     activity_name = "Programming Class"
     existing_email = "emma@mergington.edu"
-    unregister_endpoint = f"/activities/{activity_name}/unregister"
+    unregister_endpoint = f"/activities/{quote(activity_name)}/unregister"
 
     # Act
     unregister_response = client.post(unregister_endpoint, params={"email": existing_email})
@@ -33,7 +36,7 @@ def test_unregister_unknown_activity_returns_404(client):
     # Arrange
     activity_name = "Unknown Club"
     email = "someone@mergington.edu"
-    endpoint = f"/activities/{activity_name}/unregister"
+    endpoint = f"/activities/{quote(activity_name)}/unregister"
 
     # Act
     response = client.post(endpoint, params={"email": email})
@@ -48,7 +51,7 @@ def test_unregister_non_registered_student_returns_404(client):
     # Arrange
     activity_name = "Chess Club"
     non_registered_email = "not.registered@mergington.edu"
-    endpoint = f"/activities/{activity_name}/unregister"
+    endpoint = f"/activities/{quote(activity_name)}/unregister"
 
     # Act
     response = client.post(endpoint, params={"email": non_registered_email})
@@ -62,7 +65,7 @@ def test_unregister_non_registered_student_returns_404(client):
 def test_unregister_missing_email_returns_422(client):
     # Arrange
     activity_name = "Chess Club"
-    endpoint = f"/activities/{activity_name}/unregister"
+    endpoint = f"/activities/{quote(activity_name)}/unregister"
 
     # Act
     response = client.post(endpoint)

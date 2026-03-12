@@ -1,9 +1,12 @@
+from urllib.parse import quote
+
+
 def test_signup_then_unregister_lifecycle(client):
     # Arrange
     activity_name = "Science Club"
     email = "lifecycle.student@mergington.edu"
-    signup_endpoint = f"/activities/{activity_name}/signup"
-    unregister_endpoint = f"/activities/{activity_name}/unregister"
+    signup_endpoint = f"/activities/{quote(activity_name)}/signup"
+    unregister_endpoint = f"/activities/{quote(activity_name)}/unregister"
 
     # Act
     signup_response = client.post(signup_endpoint, params={"email": email})
@@ -21,7 +24,7 @@ def test_unregister_twice_returns_404_on_second_attempt(client):
     # Arrange
     activity_name = "Drama Club"
     email = "amelia@mergington.edu"
-    endpoint = f"/activities/{activity_name}/unregister"
+    endpoint = f"/activities/{quote(activity_name)}/unregister"
 
     # Act
     first_response = client.post(endpoint, params={"email": email})
